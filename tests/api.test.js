@@ -10,8 +10,8 @@ const longitude = 0.1278;
 Must include tests:
   - Provide a few options that test the isCoordinatesWithinRange function works
   - Test the city endpoint with a valid city (London) and invalid city (random string)
-  - Check that all the users from the herokuapp city api call appear in this api call
-  - Check that all the users from the herokuapp users api within 50 miles of London call appear in this api call
+  - Check that all the users from the city api call appear in this api call
+  - Check that all the users from the users api within 50 miles of London call appear in this api call
 */
 
 // Provide a few options that test the isCoordinatesWithinRange function works
@@ -50,19 +50,19 @@ describe('City enpoint with Random string "ahbrg"', () => {
   });
 });
 
-// Check that all the users from the herokuapp city api call appear in this api call
-describe('Herokuapp city api endpoint vs my api', () => {
-  it('should find all users from Herokuapp city api in my api', async () => {
+// Check that all the users from the city api call appear in this api call
+describe('city api endpoint vs my api', () => {
+  it('should find all users from city api in my api', async () => {
     const res = await supertest(app)
       .get('/');
 
     var foundAll = true;
 
-    var herokuUsers = await apiHandler.getUsersInCity("London");
+    var users = await apiHandler.getUsersInCity("London");
     var users = res.body;
 
-    // loop through all the herokuapp endpoint users to see if they are in my api result
-    herokuUsers.forEach(user => {
+    // loop through all the endpoint users to see if they are in my api result
+    users.forEach(user => {
       if (!users.some(_user => _user.id === user.id)) {
         foundAll = false;
       }
@@ -73,19 +73,19 @@ describe('Herokuapp city api endpoint vs my api', () => {
   });
 });
 
-// Check that all the users from the herokuapp users api within 50 miles of London call appear in this api call
-describe('Herokuapp users api endpoint vs my api', () => {
-  it('should find all users from Herokuapp city api in my api', async () => {
+// Check that all the users from the users api within 50 miles of London call appear in this api call
+describe('users api endpoint vs my api', () => {
+  it('should find all users from city api in my api', async () => {
     const res = await supertest(app)
       .get('/');
 
     var foundAll = true;
 
-    // loop through all the herokuapp endpoint users to see if they are in my api result
-    var herokuUsers = await apiHandler.getUsersWithin(latitude, longitude, 50);
+    // loop through all the endpoint users to see if they are in my api result
+    var users = await apiHandler.getUsersWithin(latitude, longitude, 50);
     var users = res.body;
 
-    herokuUsers.forEach(user => {
+    users.forEach(user => {
       if (!users.some(_user => _user.id === user.id)) {
         foundAll = false;
       }

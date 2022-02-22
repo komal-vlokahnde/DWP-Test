@@ -1,7 +1,7 @@
 const axios = require('axios');
 const geolib = require('geolib');
 
-async function getUsersInCity(city) {
+ getUsersInCity = async(city) => {
   const url = "https://bpdts-test-app.herokuapp.com/city/"+city+"/users";
 
   // Get the response from the api
@@ -9,7 +9,7 @@ async function getUsersInCity(city) {
   return resp.data;
 }
 
-async function getAllUsers() {
+getAllUsers = async() => {
   const url = "https://bpdts-test-app.herokuapp.com/users";
 
   // Get the response from the api
@@ -21,7 +21,7 @@ async function getAllUsers() {
   }
 }
 
-async function getUsersWithin(lat, lon, distance) {
+getUsersWithin = async(lat, lon, distance) => {
     let users = await getAllUsers();
 
     var validUsers = [];
@@ -33,9 +33,8 @@ async function getUsersWithin(lat, lon, distance) {
     return validUsers;
 }
 
-module.exports.getUsersInCity = getUsersInCity
-module.exports.getAllUsers = getAllUsers
-module.exports.getUsersWithin = getUsersWithin
+
+
 
 
 // ------- functions for use within the handlers above
@@ -52,5 +51,10 @@ function getMiles(i) {
     return i*0.000621371192;
 }
 
-// only exported for testing purposes
-module.exports.isCoordinatesWithinRange = isCoordinatesWithinRange
+
+module.exports = {
+  getUsersInCity : getUsersInCity,
+  getAllUsers : getAllUsers,
+  getUsersWithin : getUsersWithin, 
+  isCoordinatesWithinRange : isCoordinatesWithinRange //only exported for testing purposes
+}
